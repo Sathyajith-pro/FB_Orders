@@ -25,7 +25,11 @@ export default function Home() {
     try {
       const res = await fetch("/api/orders");
       const data = await res.json();
-      setOrders(data);
+      if (Array.isArray(data)) {
+        setOrders(data);
+      } else {
+        setError(data.error || "Failed to load orders from database.");
+      }
     } catch {
       setError("Could not load orders. Check your connection.");
     } finally {
